@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Make M-Pesa Payment</h2>
+
+    <!-- Display messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Payment Form -->
+    <form method="POST" class="w-50">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="phone_number" class="form-label">Phone Number</label>
+            <input type="text" name="phone_number" placeholder="2547XXXXXXXX" required>
+        </div>
+        <div class="mb-3">
+            <label for="amount" class="form-label">Amount (KES)</label>
+            <input type="number" name="amount" placeholder="Enter amount" required>
+        </div>
+        <button type="submit" class="btn btn-success">Pay</button>
+    </form>
+
+    {% if response %}
+        <div class="mt-4 alert alert-info">
+            {{ response }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

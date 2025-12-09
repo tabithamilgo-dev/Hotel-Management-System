@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<h1 class="text-success">Our Rooms</h1>
+<div class="row">
+    {% for room in rooms %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.room_type }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ room.room_type }} Room</h5>
+                <p><strong>Room Number:</strong> {{ room.room_number }}</p>
+                <p><strong>Capacity:</strong> {{ room.capacity }} guests</p>
+                <p><strong>Price:</strong> ${{ room.price }} per night</p>
+                <p><strong>Description:</strong>{{ room.description }}</p>
+                <a href="{% url 'book_room' room.id %}" class="btn btn-primary w-60 mt-4">
+                    Book Room
+                </a>
+        </div>
+    </div>
+</div>
+    {% empty %}
+    <p>No rooms available at the moment.</p>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}
