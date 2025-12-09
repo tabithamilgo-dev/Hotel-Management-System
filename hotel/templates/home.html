@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Home section -->
+<div class="container-fluid p-0">
+<div class="d-flex flex-column justify-content-center align-items-center text-center text-white vh-100 px-3 position-relative"
+        style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('{% static 'images/hotel.jpg' %}');
+               background-position:center; background-size:cover; background-repeat:no-repeat">
+ <h1 class="display-4 fw-bold text-start mx-auto" style="max-width: 700px;">Welcome to Baraka Hotel</h1>
+        <p class="lead mb-3 text-start mx-auto" style="max-width: 600px;">Baraka Hotel offers comfortable rooms, excellent service, and an easy online booking
+            system to make your stay enjoyable. You can browse available rooms, make bookings online, and track your
+            payments quickly. Our staff is always ready to assist you, ensuring a seamless and comfortable experience
+            for every guest</p>
+
+        <div class="d-flex gap-3">
+            <a href="{% url 'login' %}" class="btn btn-success btn-lg px-4">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-success btn-lg px-4">Register</a>
+        </div>
+    </div>
+</div>
+<!-- Rooms Section -->
+<div id="rooms" class="container my-5">
+    <h1 class="text-success">Our Rooms</h1>
+    <div class="row">
+        {% for room in rooms %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.room_type }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ room.room_type }} Room</h5>
+                    <p><strong>Room Number:</strong> {{ room.room_number }}</p>
+                    <p><strong>Capacity:</strong> {{ room.capacity }} guests</p>
+                    <p><strong>Price:</strong> ${{ room.price }} per night</p>
+                    <p><strong>Description:</strong>{{ room.description }}</p>
+                    <a href="{% url 'book_room' room.id %}" class="btn btn-success w-60 mt-4">
+                        Book Room
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No rooms available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Contact Section -->
+<h2 class="text-center text-success fw-bold mb-4 mt-5">Contact Us</h2>
+<div class="container bg-success text-white p-5 my-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6 mr-auto">
+            <div class="mb-5">
+                <h3 class="text-white mb-4">Contact Info</h3>
+                <p class="text-white">If you have any questions or need help with your booking, feel free to reach out.
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="text-white h5 mb-3">Nairobi</h3>
+                    <ul class="list-unstyled mb-5">
+                        <li class="d-flex text-white mb-2">
+                            <span class="me-3"><span class="icon-map"></span></span> Kimathi Street, Nairobi, Kenya
+                        </li>
+                        <li class="d-flex text-white mb-2">
+                            <span class="me-3"><span class="icon-phone"></span></span> +254 712345678
+                        </li>
+                        <li class="d-flex text-white">
+                            <span class="me-3"><span class="icon-envelope-o"></span></span> info@barakahotel.co.ke
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="box">
+                <h3 class="heading">Send us a message</h3>
+                <form class="mb-5" method="post" id="contactForm" name="contactForm">
+                    {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="name" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" name="name" id="name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="email" class="col-form-label">Email</label>
+                                <input type="text" class="form-control" name="email" id="email">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12 form-group">
+                                <label for="message" class="col-form-label">Message</label>
+                                <textarea class="form-control" name="message" id="message" cols="30"
+                                    rows="7"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="submit" value="Send Message"
+                                    class="btn btn-block btn-light rounded-2 py-2 px-4">
+                                <span class="submitting"></span>
+                            </div>
+                        </div>
+                </form>
+                {% if success %}
+                <div class="alert alert-light text-success fw-bold mt-3">
+                    Your message was sent successfully!
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
